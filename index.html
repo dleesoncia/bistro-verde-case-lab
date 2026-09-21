@@ -44,7 +44,7 @@
   }
   .backlink:hover{background:var(--ink); color:var(--paper);}
 
-  .tab-bar{display:flex;gap:0;margin-bottom:18px;border-bottom:1px solid var(--line);}
+  .tab-bar{display:flex;flex-wrap:wrap;gap:4px 0;margin-bottom:18px;border-bottom:1px solid var(--line);}
   .tab-btn{
     font-family:'Courier Prime',monospace;font-size:13px;font-weight:700;letter-spacing:0.06em;
     background:none;border:none;border-bottom:3px solid transparent;
@@ -148,6 +148,7 @@
   <div class="tab-bar">
     <button class="tab-btn active" id="tabCasesBtn">CASES</button>
     <button class="tab-btn" id="tabAboutBtn">ABOUT</button>
+    <button class="tab-btn" id="tabFacultyBtn">FOR FACULTY</button>
   </div>
 
   <div id="backlinkSlot"></div>
@@ -657,6 +658,7 @@ async function startCase(caseId){
 function setActiveTab(tab){
   document.getElementById("tabCasesBtn").classList.toggle("active", tab === "cases");
   document.getElementById("tabAboutBtn").classList.toggle("active", tab === "about");
+  document.getElementById("tabFacultyBtn").classList.toggle("active", tab === "faculty");
 }
 
 function goToCasesTab(){
@@ -700,6 +702,63 @@ async function renderAbout(){
     <div class="scene-label" style="margin-top:24px;">About This Tool</div>
     <p class="narrative">This is a case-based learning tool from the Center for Excellence in Teaching and Learning. Each case drops you in as an outside consultant helping Bistro Verde's staff work through a real judgment call — interview the people involved, then decide what you'd advise. There's rarely an obviously correct answer here; the goal is defending a reasoned position, not locating a formula.</p>
     <p class="narrative">Faculty can request a custom case built around their own course topic. If you're a student, ask your instructor whether that's how you ended up here — and if you're faculty, reach out to CETL to request a case for your own class.</p>
+  `;
+}
+
+async function renderFacultyGuide(){
+  setActiveTab("faculty");
+  document.getElementById("pageTitle").textContent = "For Faculty";
+  document.getElementById("pageSubtitle").textContent = "A quick guide to using Bistro Verde in your classroom.";
+  document.getElementById("backlinkSlot").innerHTML = "";
+  document.getElementById("rail").style.display = "none";
+
+  const sceneEl = document.getElementById("scene");
+  sceneEl.innerHTML = `
+    <div class="scene-label">Running It in Class</div>
+    <div class="debrief">
+      <ul>
+        <li>No login or account needed — just share the link. Works on any phone, tablet, or laptop with a browser.</li>
+        <li>Each case takes roughly 15–25 minutes, depending on how much students chat with the characters.</li>
+        <li>Works as an individual activity, a small-group activity, or a whole-class live playthrough.</li>
+      </ul>
+    </div>
+
+    <div class="scene-label" style="margin-top:24px;">Picking a Case</div>
+    <p class="narrative" style="font-size:15px;">Browse the Cases tab — each one is built around a specific department and decision. If you're not sure which fits your course, reach out (see below) and we can point you to the right one, or build a new one for your specific topic.</p>
+
+    <div class="scene-label" style="margin-top:24px;">Suggested Formats</div>
+    <div class="debrief">
+      <ul>
+        <li><b>Homework + debrief:</b> students play individually before class, discussion happens live.</li>
+        <li><b>Small groups:</b> each group plays through together, then compares which paths different groups took.</li>
+        <li><b>Whole class:</b> project it and play together, pausing to discuss each decision as a group.</li>
+      </ul>
+    </div>
+
+    <div class="scene-label" style="margin-top:24px;">Leading the Debrief</div>
+    <p class="narrative" style="font-size:15px;">Each case ends with its own built-in debrief — treat it as a discussion starter, not the final word. A few questions that tend to work well:</p>
+    <div class="debrief">
+      <ul>
+        <li>"Would you decide differently now, knowing how it played out?"</li>
+        <li>"What would you tell the character to do differently, and why?"</li>
+        <li>"Was there a genuinely right answer here, or just tradeoffs?"</li>
+      </ul>
+    </div>
+
+    <div class="scene-label" style="margin-top:24px;">Requesting a Custom Case</div>
+    <p class="narrative" style="font-size:15px;">Want a case built around your own course topic? Reach out to CETL with your idea — a short request form covers the core dilemma, learning objectives, and audience level.</p>
+
+    <div class="scene-label" style="margin-top:24px;">If Something Breaks</div>
+    <div class="debrief">
+      <ul>
+        <li>Refresh the page first — that fixes most issues.</li>
+        <li>Try a different browser or device if refreshing doesn't help.</li>
+        <li>Confirm you have an internet connection — the character chat needs one.</li>
+      </ul>
+    </div>
+
+    <div class="scene-label" style="margin-top:24px;">Questions?</div>
+    <p class="narrative" style="font-size:15px;">Reach out to the Center for Excellence in Teaching and Learning — <a href="mailto:doug.leeson@culinary.edu" style="color:var(--olive);">doug.leeson@culinary.edu</a>.</p>
   `;
 }
 
@@ -909,6 +968,7 @@ function commitDecision(node, opt){
 app.runtimePersonas = buildRuntimePersonas({}); // base twelve, ready before any case loads
 document.getElementById("tabCasesBtn").onclick = goToCasesTab;
 document.getElementById("tabAboutBtn").onclick = renderAbout;
+document.getElementById("tabFacultyBtn").onclick = renderFacultyGuide;
 renderLibrary();
 </script>
 </body>
